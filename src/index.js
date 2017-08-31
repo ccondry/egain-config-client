@@ -23,6 +23,10 @@ class AgentConfig {
   async changeAttribute (skillTargetId, attribute, value) {
     return await queries.changeAttribute(this.pool, {skillTargetId, attribute, value})
   }
+
+  async updateScreenName (skillTargetId) {
+    return await queries.updateScreenName(this.pool, {skillTargetId})
+  }
 }
 
 class EgainConfig {

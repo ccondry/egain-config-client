@@ -6,5 +6,19 @@ module.exports = {
     JOIN [dbo].[EGICM_USER] icm
     ON e.USER_ID = icm.USER_ID
     WHERE icm.SKILL_TARGET_ID = @SKILL_TARGET_ID`
-  }
+  },
+  updateScreenName: function () {
+    return `UPDATE e
+    SET e.SCREEN_NAME = (
+      SELECT FIRST_NAME + ' ' + LAST_NAME
+      FROM [dbo].[EGPL_USER] e
+      JOIN [dbo].[EGICM_USER] icm
+      ON e.USER_ID = icm.USER_ID
+      WHERE icm.SKILL_TARGET_ID =5002
+    )
+    FROM [dbo].[EGPL_USER] e
+    JOIN [dbo].[EGICM_USER] icm
+    ON e.USER_ID = icm.USER_ID
+    WHERE icm.SKILL_TARGET_ID = @SKILL_TARGET_ID`
+  },
 }

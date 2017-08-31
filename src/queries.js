@@ -27,5 +27,18 @@ module.exports = {
     } catch (e) {
       throw e
     }
+  },
+  updateScreenName: async function (db, {skillTargetId}) {
+    const query = agent.updateScreenName()
+    console.log(query)
+    try {
+      // run query
+      const results = await db.request()
+      .input('SKILL_TARGET_ID', mssql.Int, skillTargetId)
+      .query(query)
+      return
+    } catch (e) {
+      throw e
+    }
   }
 }

@@ -1,0 +1,29 @@
+{
+  "name": "egain-config",
+  "version": "0.1.0",
+  "description": "JavaScript library for interfacing with eGain back-end systems.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index",
+    "test": "mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/ccondry/egain-config.git"
+  },
+  "keywords": [
+    "egain",
+    "cisco",
+    "ece",
+    "cce"
+  ],
+  "author": "Coty Condry <ccondry@cisco.com>",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://gitlab.com/ccondry/egain-config/issues"
+  },
+  "homepage": "https://gitlab.com/ccondry/egain-config#README",
+  "dependencies": {
+    "mssql": "^4.0.4"
+  }
+}

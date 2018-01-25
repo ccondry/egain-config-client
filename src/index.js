@@ -1,4 +1,3 @@
-const pkg = require('../package.json')
 const sql = require('mssql')
 const queries = require('./queries')
 
@@ -44,7 +43,7 @@ class EgainConfig {
   // initial connection method for SQL pool
   async connect () {
     // make sure the pool has a connection for us
-    this.pool = await getSqlPool('mssql://sa:C1sco12345@cceece.dcloud.cisco.com/eGActiveDB')
+    this.pool = await getSqlPool(`mssql://${this.username}:${this.password}@${this.host}/eGActiveDB`)
     this.agent = new AgentConfig(this.pool)
     return this
   }

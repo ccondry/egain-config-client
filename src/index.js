@@ -29,12 +29,14 @@ class AgentConfig {
 }
 
 class EgainConfig {
-  constructor ({fqdn, username, password, db = 'eGActiveDB'}) {
-    this.fqdn = fqdn
+  constructor ({host, username, password, db = 'eGActiveDB'}) {
+    this.host = host
     this.db = db
+    this.username = username
+    this.password = password
     // mssql connection URL
-    const url = `mssql://${username}:${password}@${fqdn}/${db}`
-    this.url = url
+    // const url = `mssql://${username}:${password}@${host}/${db}`
+    // this.url = url
     // mssql connection pool
     this.pool = null
     this.agent = null
@@ -42,8 +44,10 @@ class EgainConfig {
 
   // initial connection method for SQL pool
   async connect () {
+    console.log('connecting egain-config mssql pool')
+    console.log('host = ', this.host)
     // make sure the pool has a connection for us
-    this.pool = await getSqlPool(`mssql://${this.username}:${this.password}@${this.host}/eGActiveDB`)
+    this.pool = await getSqlPool(`mssql://${this.username}:${this.password}@${this.host}/${this.db}`)
     this.agent = new AgentConfig(this.pool)
     return this
   }

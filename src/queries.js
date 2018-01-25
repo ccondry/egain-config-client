@@ -23,7 +23,7 @@ module.exports = {
       .input(attribute, mssql.VarChar, value)
       .input('SKILL_TARGET_ID', mssql.Int, skillTargetId)
       .query(query)
-      return
+      return results
     } catch (e) {
       throw e
     }
@@ -36,7 +36,7 @@ module.exports = {
       const results = await db.request()
       .input('SKILL_TARGET_ID', mssql.Int, skillTargetId)
       .query(query)
-      return
+      return results
     } catch (e) {
       throw e
     }

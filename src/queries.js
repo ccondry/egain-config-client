@@ -6,7 +6,7 @@ module.exports = {
     try {
       const pool = await new mssql.ConnectionPool(config).connect()
       const results = await pool.request().query('SELECT * FROM dbo.EGPL_USER')
-      console.log(results)
+      // console.log(results)
       mssql.close()
       return results
     } catch (e) {
@@ -22,7 +22,7 @@ module.exports = {
       .input(attribute, mssql.VarChar, value)
       .input('SKILL_TARGET_ID', mssql.Int, skillTargetId)
       .query(query)
-      console.log(results)
+      // console.log(results)
       mssql.close()
       return results
     } catch (e) {
@@ -37,7 +37,7 @@ module.exports = {
       const results = await pool.request()
       .input('SKILL_TARGET_ID', mssql.Int, skillTargetId)
       .query(query)
-      console.log(results)
+      // console.log(results)
       mssql.close()
       return results
     } catch (e) {
@@ -53,7 +53,7 @@ module.exports = {
       .input('SKILL_TARGET_ID', mssql.Int, skillTargetId)
       .input('ROLE_ID', mssql.Int, roleId)
       .query(query)
-      console.log(results)
+      // console.log(results)
       mssql.close()
       return results
     } catch (e) {

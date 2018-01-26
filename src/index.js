@@ -1,15 +1,6 @@
 const sql = require('mssql')
 const queries = require('./queries')
 
-// MSSQL connection pool promise
-function getSqlPool(client) {
-  return new Promise((resolve, reject) => {
-    const pool = sql.connect(client, function (err) {
-      if (err) reject(err)
-      else resolve(pool)
-    })
-  })
-}
 class AgentConfig {
   constructor (pool) {
     this.pool = pool
@@ -46,6 +37,15 @@ class EgainConfig {
   async connect () {
     console.log('connecting egain-config mssql pool')
     console.log('host = ', this.host)
+    // MSSQL connection pool promise
+    function getSqlPool(client) {
+      return new Promise((resolve, reject) => {
+        const pool = sql.connect(client, function (err) {
+          if (err) reject(err)
+          else resolve(pool)
+        })
+      })
+    }
     // make sure the pool has a connection for us
     this.pool = await getSqlPool(`mssql://${this.username}:${this.password}@${this.host}/${this.db}`)
     this.agent = new AgentConfig(this.pool)

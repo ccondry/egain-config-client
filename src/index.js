@@ -48,6 +48,10 @@ class AgentConfig {
   async findUserResourceTypeId () {
     return await queries.findUserResourceTypeId(this.config)
   }
+
+  async findRoleId ({roleName, departmentId}) {
+    return await queries.findRoleId(this.config, {roleName, departmentId})
+  }
 }
 
 class EgainConfig {

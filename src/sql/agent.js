@@ -106,6 +106,12 @@ module.exports = {
     WHERE DEPARTMENT_ID = @department_id
     AND ROLE_NAME = 'Agent'`
   },
+  findRoleId () {
+    return `SELECT role_id
+    FROM EGPL_USER_ROLE
+    WHERE DEPARTMENT_ID = @department_id
+    AND ROLE_NAME = @role_name`
+  },
   insertRoleId () {
     return `INSERT INTO egpl_user_party_role (
       party_id,

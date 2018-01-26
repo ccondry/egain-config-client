@@ -61,6 +61,22 @@ module.exports = {
       throw e
     }
   },
+  findRoleId: async function (config, {roleName, departmentId}) {
+    const query = agent.findRoleId()
+    try {
+      const pool = await new mssql.ConnectionPool(config).connect()
+      const results = await pool.request()
+      .input('role_name', mssql.Int, roleName)
+      .input('department_id', mssql.Int, departmentId)
+      .query(query)
+      const roleId = results.recordset[0].role_id
+      mssql.close()
+      return roleId
+    } catch (e) {
+      mssql.close()
+      throw e
+    }
+  },
   addLicense: async function (config, {skillTargetId, licenseKey}) {
     const query = agent.addLicense()
     try {

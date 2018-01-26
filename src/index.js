@@ -1,30 +1,24 @@
 const sql = require('mssql')
 const queries = require('./queries')
 
-// MSSQL connection pool promise
-function getSqlPool(client) {
-  return new Promise((resolve, reject) => {
-    const pool = sql.connect(client, function (err) {
-      if (err) reject(err)
-      else resolve(pool)
-    })
-  })
-}
 class AgentConfig {
-  constructor (pool) {
-    this.pool = pool
+  constructor (config) {
+    this.config = config
   }
 
   async list () {
-    return await queries.listAgents(this.pool)
+    const result = await queries.listAgents(this.config)
+    return result
   }
 
   async changeAttribute (skillTargetId, attribute, value) {
-    return await queries.changeAttribute(this.pool, {skillTargetId, attribute, value})
+    const result = await queries.changeAttribute(this.config, {skillTargetId, attribute, value})
+    return result
   }
 
   async updateScreenName (skillTargetId) {
-    return await queries.updateScreenName(this.pool, {skillTargetId})
+    const result = await queries.updateScreenName(this.config, {skillTargetId})
+    return result
   }
 }
 
@@ -38,18 +32,16 @@ class EgainConfig {
     // const url = `mssql://${username}:${password}@${host}/${db}`
     // this.url = url
     // mssql connection pool
-    this.pool = null
-    this.agent = null
-  }
-
-  // initial connection method for SQL pool
-  async connect () {
-    console.log('connecting egain-config mssql pool')
-    console.log('host = ', this.host)
-    // make sure the pool has a connection for us
-    this.pool = await getSqlPool(`mssql://${this.username}:${this.password}@${this.host}/${this.db}`)
-    this.agent = new AgentConfig(this.pool)
-    return this
+    // this.pool = null
+    // this.agent = null
+    // config for your database
+    this.config = {
+      user: this.username,
+      password: this.password,
+      server: this.host,
+      database: this.db
+    }
+    this.agent = new AgentConfig(this.config)
   }
 }
 

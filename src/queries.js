@@ -2,42 +2,46 @@ const mssql = require('mssql')
 const agent = require('./sql/agent')
 
 module.exports = {
-  listAgents: async function (db) {
-    // const query =
-    const results = await db.request().query('SELECT * FROM dbo.EGPL_USER')
-    console.log(results)
-    return results
-  },
-  changeAttribute: async function (db, {skillTargetId, attribute, value}) {
-    const query = agent.updateAttribute(attribute)
-    // const query = `UPDATE e
-    // SET e.LAST_NAME = @LAST_NAME
-    // FROM [dbo].[EGPL_USER] e
-    // JOIN [dbo].[EGICM_USER] icm
-    // ON e.USER_ID = icm.USER_ID
-    // WHERE icm.SKILL_TARGET_ID = @SKILL_TARGET_ID`
-    console.log(query)
+  listAgents: async function (config) {
     try {
-      // run query
-      const results = await db.request()
-      .input(attribute, mssql.VarChar, value)
-      .input('SKILL_TARGET_ID', mssql.Int, skillTargetId)
-      .query(query)
+      const pool = await new mssql.ConnectionPool(config).connect()
+      const results = await pool.request().query('SELECT * FROM dbo.EGPL_USER')
+      console.log(results)
+      mssql.close()
       return results
     } catch (e) {
+      mssql.close()
       throw e
     }
   },
-  updateScreenName: async function (db, {skillTargetId}) {
-    const query = agent.updateScreenName()
-    console.log(query)
+  changeAttribute: async function (config, {skillTargetId, attribute, value}) {
+    const query = agent.updateAttribute(attribute)
     try {
-      // run query
-      const results = await db.request()
+      const pool = await new mssql.ConnectionPool(config).connect()
+      const results = await pool.request()
+      .input(attribute, mssql.VarChar, value)
       .input('SKILL_TARGET_ID', mssql.Int, skillTargetId)
       .query(query)
+      console.log(results)
+      mssql.close()
       return results
     } catch (e) {
+      mssql.close()
+      throw e
+    }
+  },
+  updateScreenName: async function (config, {skillTargetId}) {
+    const query = agent.updateScreenName()
+    try {
+      const pool = await new mssql.ConnectionPool(config).connect()
+      const results = await pool.request()
+      .input('SKILL_TARGET_ID', mssql.Int, skillTargetId)
+      .query(query)
+      console.log(results)
+      mssql.close()
+      return results
+    } catch (e) {
+      mssql.close()
       throw e
     }
   }

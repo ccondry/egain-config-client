@@ -38,8 +38,6 @@ class EgainConfig {
 
   // initial connection method for SQL pool
   async connect () {
-    console.log('connecting egain-config mssql pool')
-    console.log('host = ', this.host)
     // MSSQL connection pool promise
     function getSqlPool(client) {
       return new Promise((resolve, reject) => {
@@ -49,8 +47,10 @@ class EgainConfig {
         })
       })
     }
+    console.log('connecting egain-config mssql pool to host', this.host)
     // make sure the pool has a connection for us
     this.pool = await getSqlPool(`mssql://${this.username}:${this.password}@${this.host}/${this.db}`)
+    // init the agent object with the sql pool
     this.agent = new AgentConfig(this.pool)
     return this
   }

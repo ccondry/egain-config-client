@@ -52,6 +52,14 @@ class AgentConfig {
   async findRoleId ({roleName, departmentId}) {
     return await queries.findRoleId(this.config, {roleName, departmentId})
   }
+
+  async getUserQueues ({username}) {
+    return await queries.getUserQueues(this.config, {username})
+  }
+
+  async setConcurrentTaskLimit ({userId, queueId, concurrentTaskLimit}) {
+    return await queries.setConcurrentTaskLimit(this.config, {userId, queueId, concurrentTaskLimit})
+  }
 }
 
 class EgainConfig {

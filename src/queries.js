@@ -124,6 +124,36 @@ module.exports = {
       throw e
     }
   },
+  getUserQueues: async function (config, {username}) {
+    const query = agent.getUserQueues()
+    try {
+      const pool = await new mssql.ConnectionPool(config).connect()
+      const results = await pool.request()
+      .input('user_name', mssql.VarChar, username)
+      .query(query)
+      mssql.close()
+      return results
+    } catch (e) {
+      mssql.close()
+      throw e
+    }
+  },
+  setConcurrentTaskLimit: async function (config, {userId, queueId, concurrentTaskLimit}) {
+    const query = agent.setConcurrentTaskLimit()
+    try {
+      const pool = await new mssql.ConnectionPool(config).connect()
+      const results = await pool.request()
+      .input('user_id', mssql.Int, userId)
+      .input('queue_id', mssql.Int, queueId)
+      .input('concurrent_task_limit', mssql.Int, concurrentTaskLimit)
+      .query(query)
+      mssql.close()
+      return results
+    } catch (e) {
+      mssql.close()
+      throw e
+    }
+  },
   addIcmUser: async function (config, {username, firstName, lastName, skillTargetId, departmentId, licenseIds}) {
     try {
       // create modified values string

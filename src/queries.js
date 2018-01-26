@@ -66,7 +66,7 @@ module.exports = {
     try {
       const pool = await new mssql.ConnectionPool(config).connect()
       const results = await pool.request()
-      .input('role_name', mssql.Int, roleName)
+      .input('role_name', mssql.VarChar, roleName)
       .input('department_id', mssql.Int, departmentId)
       .query(query)
       const roleId = results.recordset[0].role_id

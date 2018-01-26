@@ -35,6 +35,19 @@ class AgentConfig {
     const result = await queries.findWithLicense(this.config, {licenseKey})
     return result
   }
+
+  async addIcmUser ({username, firstName, lastName, skillTargetId, departmentId, licenseIds}) {
+    const result = await queries.addIcmUser(this.config, {username, firstName, lastName, skillTargetId, departmentId, licenseIds})
+    return result
+  }
+
+  async findDefaultUserGroup ({departmentId}) {
+    return await queries.findDefaultUserGroup(this.config, {departmentId})
+  }
+
+  async findUserResourceTypeId () {
+    return await queries.findUserResourceTypeId(this.config)
+  }
 }
 
 class EgainConfig {

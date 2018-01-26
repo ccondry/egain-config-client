@@ -7,15 +7,18 @@ class AgentConfig {
   }
 
   async list () {
-    return await queries.listAgents(this.pool)
+    const result = await queries.listAgents(this.pool)
+    return result
   }
 
   async changeAttribute (skillTargetId, attribute, value) {
-    return await queries.changeAttribute(this.pool, {skillTargetId, attribute, value})
+    const result = await queries.changeAttribute(this.pool, {skillTargetId, attribute, value})
+    return result
   }
 
   async updateScreenName (skillTargetId) {
-    return await queries.updateScreenName(this.pool, {skillTargetId})
+    const result = await queries.updateScreenName(this.pool, {skillTargetId})
+    return result
   }
 }
 

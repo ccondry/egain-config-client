@@ -132,7 +132,7 @@ module.exports = {
       .input('user_name', mssql.VarChar, username)
       .query(query)
       mssql.close()
-      return results
+      return results.recordset
     } catch (e) {
       mssql.close()
       throw e
@@ -148,7 +148,7 @@ module.exports = {
       .input('concurrent_task_limit', mssql.Int, concurrentTaskLimit)
       .query(query)
       mssql.close()
-      return results
+      return results.rowsAffected
     } catch (e) {
       mssql.close()
       throw e

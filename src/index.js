@@ -20,6 +20,16 @@ class AgentConfig {
     const result = await queries.updateScreenName(this.config, {skillTargetId})
     return result
   }
+
+  async addRole (skillTargetId, roleId) {
+    const result = await queries.addRole(this.config, {skillTargetId, roleId})
+    return result
+  }
+
+  async addLicense (skillTargetId, licenseKey) {
+    const result = await queries.addLicense(this.config, {skillTargetId, licenseKey})
+    return result
+  }
 }
 
 class EgainConfig {
@@ -28,12 +38,6 @@ class EgainConfig {
     this.db = db
     this.username = username
     this.password = password
-    // mssql connection URL
-    // const url = `mssql://${username}:${password}@${host}/${db}`
-    // this.url = url
-    // mssql connection pool
-    // this.pool = null
-    // this.agent = null
     // config for your database
     this.config = {
       user: this.username,

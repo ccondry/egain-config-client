@@ -1,5 +1,6 @@
 const mssql = require('mssql')
 const agent = require('./sql/agent')
+const moment = require('moment')
 
 module.exports = {
   listAgents: async function (config) {
@@ -129,7 +130,8 @@ module.exports = {
       // the admin user who creates this new agent
       let whoCreated = 1
       // now
-      let whenCreated = '2018-01-26 02:04:24'
+      // let whenCreated = '2018-01-26 02:04:24'
+      let whenCreated = moment().subtract(6, 'hours').format('YYYY-MM-DD hh:mm:ss')
       let password = '3946333242393341314236343038424234434133463143344638394334303946383139313633304431364531333730443836314338334236414530393937343943424638353242344336454533393642384241414539394434424344454544363746334339343934364535303843373739323546434643423046343533354543233538363333383334343137333246363937353331333033323435373733443344'
       let modifiedValues = `'${password}','${firstName} ${lastName}','${password}','${username}',${whoCreated},'${whenCreated}','${firstName}','${lastName}'`
       let modifiedColumns = 'password,screen_name,case_insensitive_password,user_name,who_created,when_created,first_name,last_name'

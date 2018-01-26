@@ -1,6 +1,6 @@
 {
   "name": "egain-config",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "JavaScript library for interfacing with eGain back-end systems.",
   "main": "src/index.js",
   "scripts": {
@@ -24,6 +24,7 @@
   },
   "homepage": "https://gitlab.com/ccondry/egain-config#README",
   "dependencies": {
+    "moment": "^2.20.1",
     "mssql": "^4.0.4"
   }
 }

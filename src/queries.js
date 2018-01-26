@@ -1,12 +1,13 @@
 const mssql = require('mssql')
 const agent = require('./sql/agent')
+const moment = require('moment')
 
 module.exports = {
   listAgents: async function (config) {
     try {
       const pool = await new mssql.ConnectionPool(config).connect()
       const results = await pool.request().query('SELECT * FROM dbo.EGPL_USER')
-      console.log(results)
+      // console.log(results)
       mssql.close()
       return results
     } catch (e) {
@@ -22,7 +23,7 @@ module.exports = {
       .input(attribute, mssql.VarChar, value)
       .input('SKILL_TARGET_ID', mssql.Int, skillTargetId)
       .query(query)
-      console.log(results)
+      // console.log(results)
       mssql.close()
       return results
     } catch (e) {
@@ -37,7 +38,7 @@ module.exports = {
       const results = await pool.request()
       .input('SKILL_TARGET_ID', mssql.Int, skillTargetId)
       .query(query)
-      console.log(results)
+      // console.log(results)
       mssql.close()
       return results
     } catch (e) {
@@ -53,7 +54,7 @@ module.exports = {
       .input('SKILL_TARGET_ID', mssql.Int, skillTargetId)
       .input('ROLE_ID', mssql.Int, roleId)
       .query(query)
-      console.log(results)
+      // console.log(results)
       mssql.close()
       return results
     } catch (e) {
@@ -123,13 +124,44 @@ module.exports = {
       throw e
     }
   },
+  getUserQueues: async function (config, {username}) {
+    const query = agent.getUserQueues()
+    try {
+      const pool = await new mssql.ConnectionPool(config).connect()
+      const results = await pool.request()
+      .input('user_name', mssql.VarChar, username)
+      .query(query)
+      mssql.close()
+      return results
+    } catch (e) {
+      mssql.close()
+      throw e
+    }
+  },
+  setConcurrentTaskLimit: async function (config, {userId, queueId, concurrentTaskLimit}) {
+    const query = agent.setConcurrentTaskLimit()
+    try {
+      const pool = await new mssql.ConnectionPool(config).connect()
+      const results = await pool.request()
+      .input('user_id', mssql.Int, userId)
+      .input('queue_id', mssql.Int, queueId)
+      .input('concurrent_task_limit', mssql.Int, concurrentTaskLimit)
+      .query(query)
+      mssql.close()
+      return results
+    } catch (e) {
+      mssql.close()
+      throw e
+    }
+  },
   addIcmUser: async function (config, {username, firstName, lastName, skillTargetId, departmentId, licenseIds}) {
     try {
       // create modified values string
       // the admin user who creates this new agent
       let whoCreated = 1
       // now
-      let whenCreated = '2018-01-26 02:04:24'
+      // let whenCreated = '2018-01-26 02:04:24'
+      let whenCreated = moment().subtract(6, 'hours').format('YYYY-MM-DD hh:mm:ss')
       let password = '3946333242393341314236343038424234434133463143344638394334303946383139313633304431364531333730443836314338334236414530393937343943424638353242344336454533393642384241414539394434424344454544363746334339343934364535303843373739323546434643423046343533354543233538363333383334343137333246363937353331333033323435373733443344'
       let modifiedValues = `'${password}','${firstName} ${lastName}','${password}','${username}',${whoCreated},'${whenCreated}','${firstName}','${lastName}'`
       let modifiedColumns = 'password,screen_name,case_insensitive_password,user_name,who_created,when_created,first_name,last_name'

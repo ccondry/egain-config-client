@@ -122,5 +122,39 @@ module.exports = {
   insertIcmUser () {
     return `INSERT INTO egicm_user(user_id, skill_target_id)
     VALUES (@user_id, @skill_target_id)`
+  },
+  getQueues () {
+    return `SELECT *
+    FROM EGPL_ROUTING_QUEUE
+    WHERE DEPARTMENT_ID = @department_id`
+  },
+  getUserQueues () {
+    // Retrieve the queues in the same department as the user that are enabled and
+    // have an MRD (so that we only get queues relevant to our interest)
+    // user_name = 41377
+    // user_name = ccondry@dcloud.cisco.com
+    return `SELECT q.QUEUE_ID, q.QUEUE_NAME, q.QUEUE_DESCRIPTION, q.WHEN_CREATED,
+    q.WHEN_MODIFIED, q.QUEUE_STATE, q.CHAT_DEFAULT_TRANSFER_QUEUE, q.DEFAULT_SOCIAL_QUEUE,
+    q.SOCIAL_ROUTING_TYPE, i.MRD_ID, i.SCRIPT_SELECTOR_ID, u.USER_NAME, u.USER_ID,
+    CASE WHEN c.CONCURRENT_TASK_LIMIT IS NULL
+      THEN 1
+      ELSE c.CONCURRENT_TASK_LIMIT
+    END AS CONCURRENT_TASK_LIMIT
+    FROM [EGPL_USER] u
+    JOIN [EGPL_ROUTING_QUEUE] q ON q.DEPARTMENT_ID = u.DEPARTMENT_ID
+    JOIN [EGPL_USER] u2 ON q.WHO_CREATED = u2.USER_ID
+    JOIN [EGICM_QUEUE] i ON q.queue_id = i.QUEUE_ID
+    FULL JOIN [EGICM_CONCURRENT_TASK] c ON c.queue_id = i.QUEUE_ID AND c.USER_ID = u.USER_ID
+    WHERE u.user_name = @user_name
+    AND q.QUEUE_STATE = 1`
+  },
+  setConcurrentTaskLimit () {
+    // set the concurrent task limit for a specified queue and user
+    // user_id = 1237
+    // queue_id = 12
+    // concurrent_task_limit = 4
+    return `INSERT INTO EGICM_CONCURRENT_TASK
+    (USER_ID, QUEUE_ID, CONCURRENT_TASK_LIMIT)
+    VALUES (@user_id, @queue_id, @concurrent_task_limit)`
   }
 }

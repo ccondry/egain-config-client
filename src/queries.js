@@ -76,5 +76,20 @@ module.exports = {
       mssql.close()
       throw e
     }
+  },
+  findWithLicense: async function (config, {licenseKey}) {
+    const query = agent.findWithLicense()
+    try {
+      const pool = await new mssql.ConnectionPool(config).connect()
+      const results = await pool.request()
+      .input('LICENSE_KEY', mssql.Int, licenseKey)
+      .query(query)
+      console.log(results)
+      mssql.close()
+      return results
+    } catch (e) {
+      mssql.close()
+      throw e
+    }
   }
 }

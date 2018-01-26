@@ -40,5 +40,11 @@ module.exports = {
     JOIN EGICM_USER icm
     ON e.USER_ID = icm.USER_ID
     WHERE icm.SKILL_TARGET_ID = @SKILL_TARGET_ID`
+  },
+  findWithLicense: function () {
+    // LICENSE_KEY = 1026
+    return `SELECT USER_NAME FROM EGPL_USER WHERE USER_ID IN (
+      SELECT USER_ID FROM EGPL_LICENSE_USER_ASSIGNMENT WHERE LICENSE_KEY=@LICENSE_KEY
+    )`
   }
 }

@@ -30,6 +30,11 @@ class AgentConfig {
     const result = await queries.addLicense(this.config, {skillTargetId, licenseKey})
     return result
   }
+
+  async findWithLicense (licenseKey) {
+    const result = await queries.findWithLicense(this.config, {licenseKey})
+    return result
+  }
 }
 
 class EgainConfig {

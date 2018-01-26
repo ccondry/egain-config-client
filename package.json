@@ -24,6 +24,7 @@
   },
   "homepage": "https://gitlab.com/ccondry/egain-config#README",
   "dependencies": {
+    "moment": "^2.20.1",
     "mssql": "^4.0.4"
   }
 }

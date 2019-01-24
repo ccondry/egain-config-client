@@ -156,5 +156,12 @@ module.exports = {
     return `INSERT INTO EGICM_CONCURRENT_TASK
     (USER_ID, QUEUE_ID, CONCURRENT_TASK_LIMIT)
     VALUES (@user_id, @queue_id, @concurrent_task_limit)`
+  },
+  find () {
+    return `SELECT *
+    FROM [dbo].[EGPL_USER] e
+    JOIN [dbo].[EGICM_USER] icm
+    ON e.USER_ID = icm.USER_ID
+    WHERE icm.SKILL_TARGET_ID = @SKILL_TARGET_ID`
   }
 }

@@ -22,11 +22,11 @@ egain.connect()
   })
   .catch(e => {
     // error changing attribute
-    console.log(e)
+    console.log(e.message)
   })
 })
 .catch(e => {
   // error connecting to egain database
-  console.log(e)
+  console.log(e.message)
 })
 ```

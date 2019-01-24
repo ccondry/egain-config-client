@@ -11,27 +11,27 @@ class AgentConfig {
     return result
   }
 
-  async changeAttribute (skillTargetId, attribute, value) {
+  async changeAttribute ({skillTargetId, attribute, value}) {
     const result = await queries.changeAttribute(this.config, {skillTargetId, attribute, value})
     return result
   }
 
-  async updateScreenName (skillTargetId) {
+  async updateScreenName ({skillTargetId}) {
     const result = await queries.updateScreenName(this.config, {skillTargetId})
     return result
   }
 
-  async addRole (skillTargetId, roleId) {
+  async addRole ({skillTargetId, roleId}) {
     const result = await queries.addRole(this.config, {skillTargetId, roleId})
     return result
   }
 
-  async addLicense (skillTargetId, licenseKey) {
+  async addLicense ({skillTargetId, licenseKey}) {
     const result = await queries.addLicense(this.config, {skillTargetId, licenseKey})
     return result
   }
 
-  async findWithLicense (licenseKey) {
+  async findWithLicense ({licenseKey}) {
     const result = await queries.findWithLicense(this.config, {licenseKey})
     return result
   }

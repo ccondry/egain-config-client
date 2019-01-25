@@ -12,7 +12,7 @@ class AgentConfig {
   }
 
   async find ({skillTargetId}) {
-    return await queries.findAgents(this.config, {skillTargetId})
+    return await queries.findAgent(this.config, {skillTargetId})
   }
 
   async changeAttribute ({skillTargetId, attribute, value}) {

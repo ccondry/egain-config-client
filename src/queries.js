@@ -15,7 +15,7 @@ module.exports = {
       throw e
     }
   },
-  findAgents: async function (config, {skillTargetId}) {
+  findAgent: async function (config, {skillTargetId}) {
     const query = agent.find()
     try {
       const pool = await new mssql.ConnectionPool(config).connect()
